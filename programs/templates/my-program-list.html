@@ -1,0 +1,58 @@
+{% extends "base.html" %} 
+{% load static %} 
+{% block title %}Noah@Collection{% endblock %} 
+
+{% block header %}
+<section>
+  <div class="text-center h1">Your collection Noah</div>
+  <div class="row mt-1 d-flex flex-nowrap overflow-auto scroll-bar-none">
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Name</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Time</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Popularity</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Television</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Genre</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+  </div>
+{% endblock %}
+
+
+{% block content %}
+  <section class="mt-3">
+    {% for _ in "xxxxxxxxx" %}
+    <div class="card mb-1 shadow">
+      <div class="row">
+        <div class="col-3 col-md-2 mx-0 d-flex">
+          <img
+            src="{% static 'img.png' %}"
+            class="img-fluid rounded"
+            alt="..."
+          />
+        </div>
+        <div class="col-9 col-md-10 mx-0">
+          <b class="card-title">Lorem ipsum dolor sit amet</b>
+          <div class="row">
+            <div class="col">GalaxyTv</div>
+            <div class="col">10:00 PM</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+</section>
+
+{% endblock %}

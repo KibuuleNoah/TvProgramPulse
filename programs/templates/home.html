@@ -1,0 +1,128 @@
+{% extends "base.html" %} 
+{% block title %}{% endblock %}
+{% load static %}
+
+{% block header %}
+<div class="d-flex justify-content-end mt-1" onclick="viewDashboard()">
+  <div>
+    <div class="d-flex justify-content-center">
+      <img src="{% static 'imgs/avatar.png' %}" class="img-fluid rounded-circle" alt="..." width="60" height="60"/>
+    </div>
+    <div class="d-flex justify-content-center"><b class="">{{request.user.username}}</b></div>
+  </div>
+</div>
+  <div class="d-flex justify-content-center">
+    <div class="col-md-7">
+      <div
+        class="input-group search p-3 rounded shadow"
+        style="background-color: #242821"
+      >
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Search..."
+          aria-label="Search"
+          aria-describedby="search-icon"
+        />
+        <div class="dropdown">
+          <button
+            class="icon-btn bg-light dropdown-toggle rounded-0"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          ></button>
+          <ul class="dropdown-menu">
+            <li>
+              <input type="radio" name="search-by" class="mx-3" checked />
+              <span class="mx-1">Name</span>
+            </li>
+            <li>
+              <input type="radio" name="search-by" class="mx-3" />
+              <span class="mx-1">Genre</span>
+            </li>
+            <li>
+              <input type="radio" name="search-by" class="mx-3" />
+              <span class="mx-1">Television</span>
+            </li>
+          </ul>
+        </div>
+        <span class="input-group-text" id="search-icon">
+          <i class="bi bi-search"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-1 d-flex flex-nowrap overflow-auto scroll-bar-none">
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Name</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Time</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Popularity</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Television</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+    <div class="col mx-0 mb-2">
+      <button type="button" class="btn btn-dark active">Genre</button>
+      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+<section>
+  {% for program in program_list %}
+  <div class="card border mt-2 shadow">
+    <div class="row">
+      <div class="col-4 col-md-2 mx-0 d-flex">
+        {% load static %}
+        <img src="{% static 'img.png' %}" class="img-fluid rounded" alt="..." />
+      </div>
+      <div class="col-8 col-md-10 mx-0" onclick="viewProgram({{program.id}})">
+        <div class="row">
+          <div class="col-12 star-rating">{{program.rating}}</div>
+          <div class="col-12">
+            <div class="scrollmenu scroll-bar-none">
+              <b class="genre">{{program.genre}}</b>
+            </div>
+          </div>
+          <div class="col-12">
+            <h5 class="card-title title">{{program.name}}</h5>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">{{program.television}}</div>
+              <div class="col">{{program.time}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-9 mx-0">
+            <table>
+              <tr>
+                {% for day in program.p_days %}
+                <td>{{day}}</td>
+                {% endfor %}
+              </tr>
+            </table>
+          </div>
+          <div class="col-3 mx-0">
+            <button class="icon-btn" type="button" onclick="addProgram({{program.id}})"><i class="bi bi-node-plus h1"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</section>
+{% endblock %}

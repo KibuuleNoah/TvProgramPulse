@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{request.user.username}}@Dashboard{% endblock %}
+
+{% block header %}
+<section>
+  <div class="text-center h1">{{request.user.username}}@Dashboard</div>
+  <!-- <div class="col mx-0 mb-2"> -->
+  <!--   <button type="button" class="btn btn-dark active">My Day</button> -->
+  <!--m <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+  <!-- </div> -->
+  <div class="d-inline">
+    <button type="button" class="btn btn-dark active">My Day</button>
+    <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+  </div>
+  <div class="d-inline">
+    <button type="button" class="btn btn-dark active">My Programs</button>
+    <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+  </div>
+</section>
+{% endblock %}
+
+{% block content %}
+<section class="mt-3 border border-success p-1 rounded">
+  <h4 class="title">Ongoing</h4>
+  {% for _ in "xxx" %}
+  <div class="card mb-1 shadow">
+    <div class="row">
+      <div class="col-3 col-md-2 mx-0 d-flex">
+        <img
+            src="{% static 'img.png' %}"
+            class="img-fluid rounded"
+            alt="..."
+            />
+      </div>
+      <div class="col-9 col-md-10 mx-0">
+        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <div class="row">
+          <div class="col">GalaxyTv</div>
+          <div class="col">10:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="text-center">
+    <button type="button" class="btn btn-dark">All</button>
+  </div>
+</section>
+<section class="mt-3 border border-warning p-1 rounded">
+  <h4 class="title">Upcoming</h4>
+  {% for _ in "xxx" %}
+  <div class="card mb-1 shadow">
+    <div class="row">
+      <div class="col-3 col-md-2 mx-0 d-flex">
+        <img
+            src="{% static 'img.png' %}"
+            class="img-fluid rounded"
+            alt="..."
+            />
+      </div>
+      <div class="col-9 col-md-10 mx-0">
+        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <div class="row">
+          <div class="col">GalaxyTv</div>
+          <div class="col">10:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="text-center">
+    <button type="button" class="btn btn-dark">All</button>
+  </div>
+</section>
+
+<section class="mt-3 border border-danger p-1 rounded">
+  <h4 class="title">Ended</h4>
+  {% for _ in "xxx" %}
+  <div class="card mb-1 shadow">
+    <div class="row">
+      <div class="col-3 col-md-2 mx-0 d-flex">
+        <img
+            src="{% static 'img.png' %}"
+            class="img-fluid rounded"
+            alt="..."
+            />
+      </div>
+      <div class="col-9 col-md-10 mx-0">
+        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <div class="row">
+          <div class="col">GalaxyTv</div>
+          <div class="col">10:00 PM</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <div class="text-center">
+    <button type="button" class="btn btn-dark">All</button>
+  </div>
+</section>
+<section>
+  <table>
+    <thead>
+      <tr>
+        <th>Day</th>
+        <th>Time</th>
+        <th>Show</th>
+        <th>TV</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2">Monday</td>
+        <td>8:00 PM</td>
+        <td>Show 1</td>
+        <td>ABC</td>
+      </tr>
+      <tr>
+        <td>8:00 PM</td>
+        <td>Show 2</td>
+        <td>CBS</td>
+      </tr>
+      <tr>
+        <td>Tuesday</td>
+        <td>Show 3</td>
+        <td>9:00 PM</td>
+        <td>NBC</td>
+      </tr>
+      <!-- More rows here... -->
+    </tbody>
+  </table>
+</section>
+{% endblock %}

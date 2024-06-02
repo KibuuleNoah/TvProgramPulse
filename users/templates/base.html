@@ -1,0 +1,168 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    />
+  </head>
+  <style>
+    body,main,.card {
+      background: #14181c;
+      color:#fff;
+    }
+    fieldset {
+      border: 1px solid #9ab;
+      padding: 0.2rem;
+      margin: 0.2rem;
+    }
+    .text-muted{
+      color: #9ab !important;
+    }
+    .shadow{
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1), 0 0 10px rgba(0, 0, 0, 0.2) !important;
+    }
+    .content-section{
+      background-color: #14181c
+    }
+    .title {
+      color: #0dcaf0;
+    }
+    .badge {
+      padding: 2px;
+      border-radius: 0.3rem;
+      background-color: orange;
+    }
+    .card {
+    color: #fff;
+  }
+  .genre {
+    border-radius: 0.3rem;
+    background: #9ab;
+    color: #fff;
+    padding: 2px;
+  }
+  .star-rating {
+    color: #ffc107;
+  }
+  .icon-btn,
+  .icon-btn:active {
+    background-color: inherit;
+    border: 0;
+    height: 100%;
+  }
+  td {
+    padding: 2px;
+    border: 1px solid #9ab;
+  }
+  div.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+    width: 90%;
+    border-left:;
+  }
+      b.card-title {
+      font-size: 1.2rem;
+    }
+
+  .details div{
+    padding-bottom:0.3rem;
+  }
+  .scroll-bar-none {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  .scroll-bar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  </style>
+  <body>
+
+    <header
+        class="container position-sticky top-0"
+        style="z-index: 1; background-color: inherit"
+        >
+        {% block header %}{% endblock %}
+    </header>
+    <main role="main" class="container" style="z-index: 2">
+      {% block content %}{% endblock %}
+    </main>
+
+    <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>
+      eruda.init();
+    </script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"
+        ></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"
+        ></script>
+    <script>
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+      const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+    </script>
+    <script>
+      const ratingToStars = (rating) => {
+        if (!rating || rating > 5) {
+          return `${"<i class='bi bi-star'></i>".repeat(5)}`;
+        }
+        let fullStars = parseInt(rating);
+        let halfStar = rating - fullStars >= 0.5 ? 1 : 0;
+        let emptyStars = 5 - fullStars - halfStar;
+        let stars = `${"<i class='bi bi-star-fill'></i>".repeat(fullStars)}${"<i class='bi bi-star-half'></i>".repeat(halfStar)}${"<i class='bi bi-star'></i>".repeat(emptyStars)}`;
+        return stars;
+      };
+
+      let starRatings = document.getElementsByClassName("star-rating");
+      if (starRatings.length > 0) {
+        for (let i = 0; i < starRatings.length; i++) {
+          starRatings[i].innerHTML = ratingToStars(starRatings[i].textContent);
+        }
+      }
+
+      function viewProgram(id){
+        window.location.href = `/programs/program/${id}/`
+      }
+      function viewDashboard(){
+        window.location.href = `/user/dashboard/`
+      }
+      function getCSRFToken() {
+        const cookieValue = document.cookie.match(
+          "(^|;)\\s*" + "csrftoken" + "\\s*=\\s*([^;]+)",
+        );
+        return cookieValue ? cookieValue.pop() : "";
+      }
+
+      function addProgram(programId){
+      fetch("/programs/add/program/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCSRFToken(), // Include the CSRF token in the headers
+        },
+        body: JSON.stringify({"program_id":programId}),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+      }
+    </script>
+  </body>
+</html>

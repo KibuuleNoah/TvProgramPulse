@@ -1,0 +1,43 @@
+{% extends "base.html" %} 
+{% block title %}{% endblock %}
+{% load static %}
+{% block content %} 
+<section>
+  <div class="">
+    <h1 class="title mt-2">
+      {{program.name}}
+    </h1>
+    <div class="star-rating mt-2 h1">
+      {{program.rating}}
+    </div>
+    <div class="scrollmenu scroll-bar-none mt-2">
+      <b class="genre h2 mx-2">{{program.genre}}</b>
+    </div>
+    <div class="col-md-6 mt-3">
+      <img src="{% static 'img.png' %}" class="img-fluid rounded" alt="..." />
+    </div>
+    <div class="text-light details">
+      <div class=""><b class="title">Tv Name: </b> <span>{{program.television}}</span></div>
+      <div class=""><b class="title">Time: </b> <span>{{program.time}}</span></div>
+      <div>
+        <b class="title">Days: </b>
+        <table class="d-inline mx-2">
+          <tr>
+            {% for day in program.p_days %}
+              <td>{{day}}</td>
+            {% endfor %}
+          </tr>
+        </table>
+      </div>
+      <div class="">
+        <b class="title"><u>Description</u></b>
+        <p>
+          Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint
+          cillum sint consectetur cupidatat. Lorem ipsum dolor sit amet, qui
+          minim labore adipisicing minim sint cillum sint consectetur cupidatat.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
