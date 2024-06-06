@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
+from django.views.generic.list import ListView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import authenticate
 from .forms import CustomUserCreationForm, UserLoginForm
 from .models import CustomUser
+from programs.models import Program, UserPrograms
 
 # Create your views here.
 
@@ -71,6 +73,26 @@ class UserLoginView(FormView):
 
 class DashBoard(TemplateView):
     template_name = "dashboard.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_programs = UserPrograms.objects.filter(user=self.request.user)
+        ongoing = list(
+            filter(lambda x: x.program.get_status == "Ongoing", user_programs)
+        )
+        upcoming = list(
+            filter(lambda x: x.program.get_status == "Upcoming", user_programs)
+        )
+
+        ended = list(filter(lambda x: x.program.get_status == "Ended", user_programs))
+
+        context["ongoing"] = ongoing[:3]
+        context["upcoming"] = upcoming[:3]
+        context["ended"] = ended[:3]
+        context["ongoing_len"] = len(ongoing)
+        context["upcoming_len"] = len(upcoming)
+        context["ended_len"] = len(ended)
+        return context
 
 
 def logout_user(request):

@@ -13,73 +13,98 @@
 </div>
   <div class="d-flex justify-content-center">
     <div class="col-md-7">
-      <div
-        class="input-group search p-3 rounded shadow"
-        style="background-color: #242821"
-      >
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Search..."
-          aria-label="Search"
-          aria-describedby="search-icon"
-        />
-        <div class="dropdown">
-          <button
-            class="icon-btn bg-light dropdown-toggle rounded-0"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          ></button>
-          <ul class="dropdown-menu">
-            <li>
-              <input type="radio" name="search-by" class="mx-3" checked />
-              <span class="mx-1">Name</span>
-            </li>
-            <li>
-              <input type="radio" name="search-by" class="mx-3" />
-              <span class="mx-1">Genre</span>
-            </li>
-            <li>
-              <input type="radio" name="search-by" class="mx-3" />
-              <span class="mx-1">Television</span>
-            </li>
-          </ul>
+      <form method="POST">
+        {% csrf_token %}
+        <div
+            class="input-group search p-3 rounded shadow"
+            style="background-color: #242821"
+            >
+            <input
+                type="search"
+                name="search"
+                class="form-control"
+                list="program-genres"
+                placeholder="Search..."
+                aria-label="Search"
+                aria-describedby="search-icon"
+                />
+            <div class="dropdown">
+              <button
+                  class="icon-btn bg-light dropdown-toggle rounded-0"
+                  type="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                  ></button>
+              <ul class="dropdown-menu">
+                <li>
+                  <input type="radio" value="name" name="search-by" class="mx-3" checked />
+                  <span class="mx-1">Name</span>
+                </li>
+                <li>
+                  <input type="radio" value="genre" name="search-by" class="mx-3" />
+                  <span class="mx-1">Genre</span>
+                </li>
+                <li>
+                  <input type="radio" value="television" name="search-by" class="mx-3" />
+                  <span class="mx-1">Television</span>
+                </li>
+              </ul>
+            </div>
+            <span class="input-group-text" id="search-icon">
+              <i class="bi bi-search"></i>
+            </span>
         </div>
-        <span class="input-group-text" id="search-icon">
-          <i class="bi bi-search"></i>
-        </span>
-      </div>
+        <datalist id="program-genres">
+          {% for genre in program_genres  %}
+          <option value="{{genre}}">{{genre}}</option>
+          {% endfor %}
+        </datalist>
+      </form>
     </div>
   </div>
 
   <div class="row mt-1 d-flex flex-nowrap overflow-auto scroll-bar-none">
     <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Name</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+      {% if p_filter == "name" %}
+        <button type="button" class="btn btn-dark active">Name</button>
+      {% else %}
+        <a href="{% url 'home' %}?p_filter=name" class="btn btn-dark">Name</a>
+      {% endif %}
     </div>
     <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Time</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+      {% if p_filter == "-time" %}
+        <button type="button" class="btn btn-dark active">Time</button>
+      {% else %}
+        <a href="{% url 'home' %}?p_filter=-time" class="btn btn-dark">Time</a>
+      {% endif %}
     </div>
     <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Popularity</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+      {% if p_filter == "-rating" %}
+        <button type="button" class="btn btn-dark active">Popularity</button>
+      {% else %}
+        <a href="{% url 'home' %}?p_filter=-rating" class="btn btn-dark">Popularity</a>
+      {% endif %}
     </div>
     <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Television</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+      {% if p_filter == "television" %}
+        <button type="button" class="btn btn-dark active">Television</button>
+      {% else %}
+        <a href="{% url 'home' %}?p_filter=television" class="btn btn-dark">Television</a>
+      {% endif %}
     </div>
     <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Genre</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+      {% if p_filter == "genre" %}
+        <button type="button" class="btn btn-dark active">Genre</button>
+      {% else %}
+        <a href="{% url 'home' %}?p_filter=genre" class="btn btn-dark">Genre</a>
+      {% endif %}
     </div>
   </div>
 {% endblock %}
 
 {% block content %}
 <section>
-  {% for program in program_list %}
+  {% for program in object_list %}
   <div class="card border mt-2 shadow">
     <div class="row">
       <div class="col-4 col-md-2 mx-0 d-flex">
@@ -122,6 +147,10 @@
         </div>
       </div>
     </div>
+  </div>
+  {% empty %}
+  <div class="d-flex justify-content-center align-items-center" style="height:7rem">
+    <span class="text-danger h1">Nothing Found!!!</span>
   </div>
   {% endfor %}
 </section>

@@ -5,25 +5,28 @@
 {% block header %}
 <section>
   <div class="text-center h1">{{request.user.username}}@Dashboard</div>
-  <!-- <div class="col mx-0 mb-2"> -->
-  <!--   <button type="button" class="btn btn-dark active">My Day</button> -->
-  <!--m <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
-  <!-- </div> -->
-  <div class="d-inline">
-    <button type="button" class="btn btn-dark active">My Day</button>
-    <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+  <div class="row">
+    <div class="col">
+      <div class="bg-success color-box"></div>
+      <span class="title">Ongoing</span>
+    </div>
+    <div class="col">
+      <div class="bg-warning color-box"></div>
+      <span class="title">Upcoming</span>
+    </div>
+    <div class="col">
+      <div class="bg-danger color-box"></div>
+      <span class="title">Ended</span>
+    </div>
   </div>
-  <div class="d-inline">
-    <button type="button" class="btn btn-dark active">My Programs</button>
-    <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
-  </div>
+  <a href="{% url 'my-programs' %}" class="btn btn-dark shadow">My Collection</a>
 </section>
 {% endblock %}
 
 {% block content %}
 <section class="mt-3 border border-success p-1 rounded">
   <h4 class="title">Ongoing</h4>
-  {% for _ in "xxx" %}
+  {% for programs in ongoing %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -34,22 +37,28 @@
             />
       </div>
       <div class="col-9 col-md-10 mx-0">
-        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <h5 class="card-title title">{{programs.program.name}}</h5>
         <div class="row">
-          <div class="col">GalaxyTv</div>
-          <div class="col">10:00 PM</div>
+          <div class="col">{{userprograms.program.television}}</div>
+          <div class="col">{{userprograms.program.time}}</div>
         </div>
       </div>
     </div>
   </div>
+  {% empty %}
+  <div class="d-flex justify-content-center w-100">
+    <span class="text-success">Nothing Ongoing Now</span>
+  </div>
   {% endfor %}
+  {% if ongoing_len > 3 %}
   <div class="text-center">
     <button type="button" class="btn btn-dark">All</button>
   </div>
+  {% endif %}
 </section>
 <section class="mt-3 border border-warning p-1 rounded">
   <h4 class="title">Upcoming</h4>
-  {% for _ in "xxx" %}
+  {% for userprograms in upcoming %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -60,23 +69,29 @@
             />
       </div>
       <div class="col-9 col-md-10 mx-0">
-        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <h5 class="card-title title">{{userprograms.program.name}}</h5>
         <div class="row">
-          <div class="col">GalaxyTv</div>
-          <div class="col">10:00 PM</div>
+          <div class="col">{{userprograms.program.television}}</div>
+          <div class="col">{{userprograms.program.time}}</div>
         </div>
       </div>
     </div>
   </div>
+  {% empty %}
+  <div class="d-flex justify-content-center w-100">
+    <span class="text-warning">Nothing Upcoming Day</span>
+  </div>
   {% endfor %}
+  {% if upcoming_len > 3 %}
   <div class="text-center">
     <button type="button" class="btn btn-dark">All</button>
   </div>
+  {% endif %}
 </section>
 
 <section class="mt-3 border border-danger p-1 rounded">
   <h4 class="title">Ended</h4>
-  {% for _ in "xxx" %}
+  {% for userprograms in ended %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -87,49 +102,43 @@
             />
       </div>
       <div class="col-9 col-md-10 mx-0">
-        <b class="card-title">Lorem ipsum dolor sit amet</b>
+        <h5 class="card-title title">{{userprograms.program.name}}</h5>
         <div class="row">
-          <div class="col">GalaxyTv</div>
-          <div class="col">10:00 PM</div>
+          <div class="col">{{userprograms.program.television}}</div>
+          <div class="col">{{userprograms.program.time}}</div>
         </div>
       </div>
     </div>
   </div>
+  {% empty %}
+  <div class="d-flex justify-content-center w-100">
+    <span class="text-danger">Nothing Has Ended</span>
+  </div>
   {% endfor %}
+  {% if ended_len > 3 %}
   <div class="text-center">
     <button type="button" class="btn btn-dark">All</button>
   </div>
+  {% endif %}
 </section>
-<section>
-  <table>
-    <thead>
-      <tr>
-        <th>Day</th>
-        <th>Time</th>
-        <th>Show</th>
-        <th>TV</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td rowspan="2">Monday</td>
-        <td>8:00 PM</td>
-        <td>Show 1</td>
-        <td>ABC</td>
-      </tr>
-      <tr>
-        <td>8:00 PM</td>
-        <td>Show 2</td>
-        <td>CBS</td>
-      </tr>
-      <tr>
-        <td>Tuesday</td>
-        <td>Show 3</td>
-        <td>9:00 PM</td>
-        <td>NBC</td>
-      </tr>
-      <!-- More rows here... -->
-    </tbody>
-  </table>
-</section>
+<table class="table table-dark">
+  <thead>
+    <tr>
+      <th scope="col">Day</th>
+      <th scope="col">Time</th>
+      <th scope="col">Show</th>
+      <th scope="col">TV</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for _ in "xxxx" %}
+    <tr scope="row">
+      <td>Monday</td>
+      <td>16:46</td>
+      <td>Deep Talk</td>
+      <td>Monday</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {% endblock %}

@@ -4,36 +4,44 @@
 
 {% block header %}
 <section>
-  <div class="text-center h1">Your collection Noah</div>
-  <div class="row mt-1 d-flex flex-nowrap overflow-auto scroll-bar-none">
-    <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Name</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+  <div class="text-center h1 title">Your collection Noah</div>
+  <div class="row">
+    <div class="col">
+      <div class="bg-success color-box"></div>
+      <span class="title">Ongoing</span>
     </div>
-    <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Time</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    <div class="col">
+      <div class="bg-warning color-box"></div>
+      <span class="title">Upcoming</span>
     </div>
-    <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Popularity</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    <div class="col">
+      <div class="bg-danger color-box"></div>
+      <span class="title">Ended</span>
     </div>
-    <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Television</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
-    </div>
-    <div class="col mx-0 mb-2">
-      <button type="button" class="btn btn-dark active">Genre</button>
-      <!-- <a href="{% url 'home' %}?status=all" class="btn btn-dark">All</a> -->
+    <div class="col">
+      <div class="bg-dark shadow color-box"></div>
+      <span class="title">NotToday</span>
     </div>
   </div>
+  <a href="{% url 'user-dashboard' %}" class="btn btn-dark shadow">Dashboard</a>
+</section>
 {% endblock %}
 
 
 {% block content %}
   <section class="mt-3">
-    {% for _ in "xxxxxxxxx" %}
-    <div class="card mb-1 shadow">
+    {% for user_program in user_programs %}
+    <div class="card mb-1 shadow border
+      {% if  user_program.program.get_status == "Upcoming" %}
+        border-warning
+      {% elif user_program.program.get_status == "Ongoing" %}
+        border-success
+      {% elif user_program.program.get_status == "Ended" %}
+        border-danger
+      {% else %}
+        border-dark
+      {% endif %}
+      ">
       <div class="row">
         <div class="col-3 col-md-2 mx-0 d-flex">
           <img
@@ -43,10 +51,10 @@
           />
         </div>
         <div class="col-9 col-md-10 mx-0">
-          <b class="card-title">Lorem ipsum dolor sit amet</b>
+          <h5 class="card-title title">{{user_program.program.name}}</h5>
           <div class="row">
-            <div class="col">GalaxyTv</div>
-            <div class="col">10:00 PM</div>
+            <div class="col">{{user_program.program.television}}</div>
+            <div class="col">{{user_program.program.time}}</div>
           </div>
         </div>
       </div>
