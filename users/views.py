@@ -92,6 +92,7 @@ class DashBoard(TemplateView):
         context["ongoing_len"] = len(ongoing)
         context["upcoming_len"] = len(upcoming)
         context["ended_len"] = len(ended)
+        context["user_programs"] = list(user_programs)
         return context
 
 

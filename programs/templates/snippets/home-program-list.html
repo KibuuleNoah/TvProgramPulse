@@ -1,0 +1,69 @@
+{% for program in object_list %}{% if forloop.last %}
+<div
+  class="card border mt-2 shadow"
+  hx-trigger="revealed"
+  hx-get="{% url 'home'%}?p_filter={{p_filter}}&page={{page_obj.number|add:1}}"
+  hx-swap="afterend"
+>
+  {% else %}
+  <div class="card border mt-2 shadow">
+    {% endif %}
+    <div class="row">
+      <div class="col-4 col-md-2 mx-0 d-flex">
+        {% load static %}
+        <img src="{% static 'img.png' %}" class="img-fluid rounded" alt="..." />
+      </div>
+      <div class="col-8 col-md-10 mx-0">
+        <div class="row">
+          <div class="col-12 star-rating">{{program.rating}}</div>
+          <div class="col-12">
+            <div class="scrollmenu scroll-bar-none">
+              <b class="genre">{{program.genre}}</b>
+            </div>
+          </div>
+          <div class="col-12">
+            <h5 class="card-title title" onclick="viewProgram({{program.id}})">
+              {{program.name}}
+            </h5>
+          </div>
+          <div class="col-12">
+            <div class="row">
+              <div class="col">{{program.television}}</div>
+              <div class="col">{{program.time}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-muted">
+        <div class="row">
+          <div class="col-9 mx-0">
+            <table>
+              <tr>
+                {% for day in program.p_days %}
+                <td>{{day}}</td>
+                {% endfor %}
+              </tr>
+            </table>
+          </div>
+          <div class="col-3 mx-0">
+            <button
+              class="icon-btn text-muted"
+              type="button"
+              onclick="userProgramCreateDelete({{program.id}},'POST')"
+            >
+              <i class="bi bi-node-plus h1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 7rem"
+  >
+    <span class="text-danger h1">Nothing Found!!!</span>
+  </div>
+  {% endfor %}
+</div>

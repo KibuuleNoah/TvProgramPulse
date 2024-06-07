@@ -104,54 +104,6 @@
 
 {% block content %}
 <section>
-  {% for program in object_list %}
-  <div class="card border mt-2 shadow">
-    <div class="row">
-      <div class="col-4 col-md-2 mx-0 d-flex">
-        {% load static %}
-        <img src="{% static 'img.png' %}" class="img-fluid rounded" alt="..." />
-      </div>
-      <div class="col-8 col-md-10 mx-0" onclick="viewProgram({{program.id}})">
-        <div class="row">
-          <div class="col-12 star-rating">{{program.rating}}</div>
-          <div class="col-12">
-            <div class="scrollmenu scroll-bar-none">
-              <b class="genre">{{program.genre}}</b>
-            </div>
-          </div>
-          <div class="col-12">
-            <h5 class="card-title title">{{program.name}}</h5>
-          </div>
-          <div class="col-12">
-            <div class="row">
-              <div class="col">{{program.television}}</div>
-              <div class="col">{{program.time}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card-footer text-muted">
-        <div class="row">
-          <div class="col-9 mx-0">
-            <table>
-              <tr>
-                {% for day in program.p_days %}
-                <td>{{day}}</td>
-                {% endfor %}
-              </tr>
-            </table>
-          </div>
-          <div class="col-3 mx-0">
-            <button class="icon-btn" type="button" onclick="addProgram({{program.id}})"><i class="bi bi-node-plus h1"></i></button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {% empty %}
-  <div class="d-flex justify-content-center align-items-center" style="height:7rem">
-    <span class="text-danger h1">Nothing Found!!!</span>
-  </div>
-  {% endfor %}
+  {% include "snippets/home-program-list.html" with object_list=object_list p_filter=p_filter %}
 </section>
 {% endblock %}

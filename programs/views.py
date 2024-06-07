@@ -5,21 +5,46 @@ from django.views.generic.list import ListView
 import random
 import json
 
-from .models import Program, UserPrograms, GENRE_CHOICES
+from .models import Program, UserPrograms, GENRE_CHOICES, Television
 
 # Create your views here.
 
 
+# def generate_genre():
+#     return random.choice(GENRE_CHOICES.keys())
+#
+#
+# def generate_tv():
+#     return random.choice(Television.objects.all())
+#
+#
+# def create():
+#     programs = [
+#         {
+#             "name": "Program{i}",
+#             "rating": 4.5,
+#             "time": "12:00",
+#             "duration": 60,
+#             "days": "Mon Wed Fri",
+#             "genre": generate_genre(),
+#             "language": "English",
+#             "description": "This is program 1",
+#             "television": generate_tv(),
+#         },
+#             ]
+#
+
+
 class ProgramsHomeView(ListView):
     template_name = "home.html"
-    # model = Program
     paginate_by = 10
     shuffled = False
 
-    # def get(self, request, *args, **kwargs):
-    # if p_filter := self.request.GET.get("p_filter"):
-    # self.ordering = [p_filter]
-    # return super().get(request, *args, **kwargs)
+    def get_template_names(self, *args, **kwargs):
+        if self.request.htmx:
+            return "snippets/home-program-list.html"
+        return self.template_name
+
     def get_queryset(self):
         queryset = []
         if p_filter := self.request.GET.get("p_filter"):
@@ -27,11 +52,8 @@ class ProgramsHomeView(ListView):
             self.shuffled = False
         elif not self.shuffled:
             queryset = list(Program.objects.all())
-            # super().get_queryset()
-            # queryset = list(queryset)
             random.shuffle(queryset)
             self.shuffled = True
-            # self.shuffled_user_programs = queryset
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -74,8 +96,24 @@ class MyProgramListView(ListView):
         return queryset
 
 
-class AddProgramView(View):
+class UserProgramCreateDeleteView(View):
     def post(self, request: HttpRequest, *args, **kwargs):
         program_id = json.loads(request.read()).get("program_id", 0)
+        program = get_object_or_404(Program, pk=program_id)
+        try:
+            UserPrograms.objects.create(user=self.request.user, program=program)
+        except:
+            return JsonResponse(
+                {"message": "Program already in your collection", "category": "error"}
+            )
+        return JsonResponse(
+            {"message": "Program added successfully", "category": "success"}
+        )
 
-        return JsonResponse({"success": True})
+    def delete(self, request: HttpRequest, *args, **kwargs):
+        program_id = json.loads(request.read()).get("program_id", 0)
+        program = get_object_or_404(Program, pk=program_id)
+        program.delete()
+        return JsonResponse(
+            {"message": "Program deleted successfully", "category": "success"}
+        )

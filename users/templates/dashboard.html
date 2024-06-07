@@ -26,7 +26,7 @@
 {% block content %}
 <section class="mt-3 border border-success p-1 rounded">
   <h4 class="title">Ongoing</h4>
-  {% for programs in ongoing %}
+  {% for user_program in ongoing %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -36,11 +36,11 @@
             alt="..."
             />
       </div>
-      <div class="col-9 col-md-10 mx-0">
-        <h5 class="card-title title">{{programs.program.name}}</h5>
+      <div class="col-9 col-md-10 mx-0" onclick="viewProgram({{user_program.program.id}})">
+        <h5 class="card-title title">{{user_program.program.name}}</h5>
         <div class="row">
-          <div class="col">{{userprograms.program.television}}</div>
-          <div class="col">{{userprograms.program.time}}</div>
+          <div class="col">{{user_program.program.television}}</div>
+          <div class="col">{{user_program.program.time}}</div>
         </div>
       </div>
     </div>
@@ -58,7 +58,7 @@
 </section>
 <section class="mt-3 border border-warning p-1 rounded">
   <h4 class="title">Upcoming</h4>
-  {% for userprograms in upcoming %}
+  {% for user_program in upcoming %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -68,11 +68,11 @@
             alt="..."
             />
       </div>
-      <div class="col-9 col-md-10 mx-0">
-        <h5 class="card-title title">{{userprograms.program.name}}</h5>
+      <div class="col-9 col-md-10 mx-0" onclick="viewProgram({{user_program.program.id}})">
+        <h5 class="card-title title">{{user_program.program.name}}</h5>
         <div class="row">
-          <div class="col">{{userprograms.program.television}}</div>
-          <div class="col">{{userprograms.program.time}}</div>
+          <div class="col">{{user_program.program.television}}</div>
+          <div class="col">{{user_program.program.time}}</div>
         </div>
       </div>
     </div>
@@ -91,7 +91,7 @@
 
 <section class="mt-3 border border-danger p-1 rounded">
   <h4 class="title">Ended</h4>
-  {% for userprograms in ended %}
+  {% for user_program in ended %}
   <div class="card mb-1 shadow">
     <div class="row">
       <div class="col-3 col-md-2 mx-0 d-flex">
@@ -101,11 +101,11 @@
             alt="..."
             />
       </div>
-      <div class="col-9 col-md-10 mx-0">
-        <h5 class="card-title title">{{userprograms.program.name}}</h5>
+      <div class="col-9 col-md-10 mx-0" onclick="viewProgram({{user_program.program.id}})">
+        <h5 class="card-title title">{{user_program.program.name}}</h5>
         <div class="row">
-          <div class="col">{{userprograms.program.television}}</div>
-          <div class="col">{{userprograms.program.time}}</div>
+          <div class="col">{{user_program.program.television}}</div>
+          <div class="col">{{user_program.program.time}}</div>
         </div>
       </div>
     </div>
@@ -124,19 +124,19 @@
 <table class="table table-dark">
   <thead>
     <tr>
-      <th scope="col">Day</th>
-      <th scope="col">Time</th>
       <th scope="col">Show</th>
+      <th scope="col">Time</th>
       <th scope="col">TV</th>
+      <th scope="col">Days</th>
     </tr>
   </thead>
   <tbody>
-    {% for _ in "xxxx" %}
+    {% for user_program in user_programs %}
     <tr scope="row">
-      <td>Monday</td>
-      <td>16:46</td>
-      <td>Deep Talk</td>
-      <td>Monday</td>
+      <td>{{user_program.program.name}}</td>
+      <td>{{user_program.program.time}}</td>
+      <td>{{user_program.program.television}}</td>
+      <td>{{user_program.program.days}}</td>
     </tr>
     {% endfor %}
   </tbody>

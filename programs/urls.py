@@ -3,12 +3,16 @@ from .views import (
     ProgramsHomeView,
     ProgramDetailView,
     MyProgramListView,
-    AddProgramView,
+    UserProgramCreateDeleteView,
 )
 
 urlpatterns = [
     path("", ProgramsHomeView.as_view(), name="home"),
-    path("add/program/", AddProgramView.as_view(), name="add-program"),
+    path(
+        "program-cd/",
+        UserProgramCreateDeleteView.as_view(),
+        name="program-create-delete",
+    ),
     path("program/<int:pk>/", ProgramDetailView.as_view(), name="program-detail"),
     path("my-programs/", MyProgramListView.as_view(), name="my-programs"),
 ]

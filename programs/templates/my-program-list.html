@@ -51,9 +51,12 @@
           />
         </div>
         <div class="col-9 col-md-10 mx-0">
-          <h5 class="card-title title">{{user_program.program.name}}</h5>
+          <h5 class="card-title title" onclick="viewProgram({{user_program.program.id}})">{{user_program.program.name}}</h5>
           <div class="row">
             <div class="col">{{user_program.program.television}}</div>
+            <div class="col">
+              <button class="icon-btn text-muted" type="button" onclick="userProgramCreateDelete({{user_program.program.id}},'DELETE')"><i class="bi bi-trash h6"></i></button>
+            </div>
             <div class="col">{{user_program.program.time}}</div>
           </div>
         </div>

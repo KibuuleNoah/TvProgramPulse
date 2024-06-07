@@ -94,12 +94,14 @@
   }
   </style>
   <body>
-
     <header
         class="container position-sticky top-0"
         style="z-index: 1; background-color: inherit"
         >
         {% block header %}{% endblock %}
+        <section class="container position-absolute top-0">
+          <div class="" id="alert"></div>
+        </section>
     </header>
     <main role="main" class="container" style="z-index: 2">
       {% block content %}{% endblock %}
@@ -155,9 +157,9 @@
         return cookieValue ? cookieValue.pop() : "";
       }
 
-      function addProgram(programId){
-      fetch("/programs/add/program/", {
-        method: "POST",
+      function userProgramCreateDelete(programId,method){
+      fetch("/programs/program-cd/", {
+        method: method,
         headers: {
           "Content-Type": "application/json",
           "X-CSRFToken": getCSRFToken(), // Include the CSRF token in the headers
@@ -166,7 +168,13 @@
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log(data)
+          let alert = document.getElementById("alert");
+          alert.innerText = data.message
+          if (data.category == "success"){
+            alert.className = "alert alert-success"
+          }else{
+            alert.className = "alert alert-danger"
+          }
         })
         .catch((error) => {
           console.error("Error:", error);

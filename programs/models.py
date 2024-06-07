@@ -42,7 +42,7 @@ class Program(models.Model):
     @property
     def p_days(self):
         if self.days:
-            return self.days.split(",")
+            return self.days.split(" ")
         return []
 
     @staticmethod
@@ -55,7 +55,7 @@ class Program(models.Model):
 
     @property
     def get_status(self):
-        today = strftime("%a").lower()
+        today = strftime("%a")
         if today in str(self.days):
             program_start_tm = self.time
             # time(hour=16, minute=24)
