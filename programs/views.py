@@ -1,8 +1,9 @@
 from django.http import HttpRequest, JsonResponse
+from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, render
 from django.views.generic import TemplateView, View
 from django.views.generic.list import ListView
-import random
+from django.contrib.auth.mixins import LoginRequiredMixin
 import json
 
 from .models import Program, UserPrograms, GENRE_CHOICES, Television
@@ -35,10 +36,11 @@ from .models import Program, UserPrograms, GENRE_CHOICES, Television
 #
 
 
-class ProgramsHomeView(ListView):
+class ProgramsHomeView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("auth-login")
+    model = Program
     template_name = "home.html"
     paginate_by = 10
-    shuffled = False
 
     def get_template_names(self, *args, **kwargs):
         if self.request.htmx:
@@ -46,19 +48,14 @@ class ProgramsHomeView(ListView):
         return self.template_name
 
     def get_queryset(self):
-        queryset = []
         if p_filter := self.request.GET.get("p_filter"):
             queryset = Program.objects.all().order_by(p_filter)
-            self.shuffled = False
-        elif not self.shuffled:
-            queryset = list(Program.objects.all())
-            random.shuffle(queryset)
-            self.shuffled = True
-        return queryset
+            return queryset
+        return super().get_queryset()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["p_filter"] = self.request.GET.get("p_filter")
+        context["p_filter"] = self.request.GET.get("p_filter", "")
         context["program_genres"] = GENRE_CHOICES.keys()
         return context
 
@@ -70,14 +67,19 @@ class ProgramsHomeView(ListView):
         context["program_genres"] = GENRE_CHOICES.keys()
         self.object_list = []
         context["object_list"] = list(
-            Program.objects.filter(**{f"{search_by}__icontains": search})
+            Program.objects.filter(
+                **{
+                    f"{search_by}{'__icontains' if search_by != 'television' else ''}": search
+                }
+            )
         )
         # print(self.object_list)
         return self.render_to_response(context=context)
 
 
-class ProgramDetailView(TemplateView):
+class ProgramDetailView(LoginRequiredMixin, TemplateView):
     template_name = "program-detail.html"
+    login_url = reverse_lazy("auth-login")
 
     def get_context_data(self, pk, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -85,8 +87,8 @@ class ProgramDetailView(TemplateView):
         return context
 
 
-class MyProgramListView(ListView):
-    # model = UserPrograms
+class MyProgramListView(LoginRequiredMixin, ListView):
+    login_url = reverse_lazy("auth-login")
     template_name = "my-program-list.html"
     paginate_by = 10
     context_object_name = "user_programs"
@@ -96,7 +98,9 @@ class MyProgramListView(ListView):
         return queryset
 
 
-class UserProgramCreateDeleteView(View):
+class UserProgramCreateDeleteView(LoginRequiredMixin, View):
+    login_url = reverse_lazy("auth-login")
+
     def post(self, request: HttpRequest, *args, **kwargs):
         program_id = json.loads(request.read()).get("program_id", 0)
         program = get_object_or_404(Program, pk=program_id)

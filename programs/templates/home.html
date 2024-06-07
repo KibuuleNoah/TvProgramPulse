@@ -3,9 +3,10 @@
 {% load static %}
 
 {% block header %}
-<div class="d-flex justify-content-end mt-1" onclick="viewDashboard()">
+<div class="col d-flex justify-content-center mt-1"><h3 class="title">Tv program Tracker</h3></div>
+<div class="d-flex justify-content-center">
   <div>
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center" onclick="viewDashboard()">
       <img src="{% static 'imgs/avatar.png' %}" class="img-fluid rounded-circle" alt="..." width="60" height="60"/>
     </div>
     <div class="d-flex justify-content-center"><b class="">{{request.user.username}}</b></div>
@@ -104,6 +105,6 @@
 
 {% block content %}
 <section>
-  {% include "snippets/home-program-list.html" with object_list=object_list p_filter=p_filter %}
+  {% include 'snippets/home-program-list.html' with object_list=object_list p_filter=p_filter %}
 </section>
 {% endblock %}

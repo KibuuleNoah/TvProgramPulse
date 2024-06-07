@@ -1,2 +1,4 @@
 let btn = document.getElementById("uuu");
-btn.
+document.addEventListener("change", () => {
+  console.log("change change");
+});

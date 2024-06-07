@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import FormView, TemplateView
+from django.views.generic import FormView, TemplateView, View
 from django.views.generic.list import ListView
 from django.contrib.auth.views import LoginView
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import CustomUserCreationForm, UserLoginForm
 from .models import CustomUser
 from programs.models import Program, UserPrograms
@@ -71,8 +72,9 @@ class UserLoginView(FormView):
         )
 
 
-class DashBoard(TemplateView):
+class DashBoard(LoginRequiredMixin, TemplateView):
     template_name = "dashboard.html"
+    login_url = reverse_lazy("auth-login")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -96,6 +98,9 @@ class DashBoard(TemplateView):
         return context
 
 
-def logout_user(request):
-    logout(request)
-    return redirect("auth-login")
+class LogOutUser(LoginRequiredMixin, View):
+    login_url = reverse_lazy("auth-login")
+
+    def get(self, request):
+        logout(request)
+        return redirect("auth-login")
