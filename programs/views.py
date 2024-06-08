@@ -69,7 +69,7 @@ class ProgramsHomeView(LoginRequiredMixin, ListView):
         context["object_list"] = list(
             Program.objects.filter(
                 **{
-                    f"{search_by}{'__icontains' if search_by != 'television' else ''}": search
+                    f"{search_by}{'__icontains' if search_by != 'television' else '__name__icontains'}": search
                 }
             )
         )
@@ -115,9 +115,9 @@ class UserProgramCreateDeleteView(LoginRequiredMixin, View):
         )
 
     def delete(self, request: HttpRequest, *args, **kwargs):
-        program_id = json.loads(request.read()).get("program_id", 0)
-        program = get_object_or_404(Program, pk=program_id)
-        program.delete()
+        user_program_id = json.loads(request.read()).get("program_id", 0)
+        user_program = get_object_or_404(UserPrograms, pk=user_program_id)
+        user_program.delete()
         return JsonResponse(
             {"message": "Program deleted successfully", "category": "success"}
         )

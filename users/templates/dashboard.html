@@ -143,4 +143,7 @@
     {% endfor %}
   </tbody>
 </table>
+<div class="d-flex justify-content-end mt-5">
+  <a href="{% url 'auth-logout' %}" class="btn btn-dark text-danger shadow">Logout <i class="bi bi-door-open"></i></a>
+</div>
 {% endblock %}

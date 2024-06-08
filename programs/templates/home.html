@@ -3,13 +3,15 @@
 {% load static %}
 
 {% block header %}
-<div class="col d-flex justify-content-center mt-1"><h3 class="title">Tv program Tracker</h3></div>
-<div class="d-flex justify-content-center">
-  <div>
-    <div class="d-flex justify-content-center" onclick="viewDashboard()">
-      <img src="{% static 'imgs/avatar.png' %}" class="img-fluid rounded-circle" alt="..." width="60" height="60"/>
+<div class="row">
+  <div class="col-12 col-md-5 d-flex justify-content-center align-items-md-center mt-1"><h3 class="title">Tv program Tracker</h3></div>
+  <div class="col-12 col-md-5 d-flex justify-content-center justify-content-md-end">
+    <div>
+      <div class="d-flex justify-content-center" onclick="viewDashboard()">
+        <img src="{% static 'imgs/avatar.png' %}" class="img-fluid rounded-circle" alt="..." width="60" height="60"/>
+      </div>
+      <div class="d-flex justify-content-center"><b class="">{{request.user.username}}</b></div>
     </div>
-    <div class="d-flex justify-content-center"><b class="">{{request.user.username}}</b></div>
   </div>
 </div>
   <div class="d-flex justify-content-center">
@@ -23,8 +25,9 @@
             <input
                 type="search"
                 name="search"
+                id="search"
                 class="form-control"
-                list="program-genres"
+                list=""
                 placeholder="Search..."
                 aria-label="Search"
                 aria-describedby="search-icon"
@@ -107,4 +110,18 @@
 <section>
   {% include 'snippets/home-program-list.html' with object_list=object_list p_filter=p_filter %}
 </section>
+<script>
+  const radioInputs = document.querySelectorAll('input[type="radio"][name="search-by"]');
+  const searchInput = document.getElementById('search');
+
+  radioInputs.forEach((radio) => {
+    radio.addEventListener('change', () => {
+      if (radio.value === 'genre') {
+        searchInput.setAttribute('list', 'program-genres');
+      } else {
+        searchInput.setAttribute('list', '');
+      }
+    });
+  });
+</script>
 {% endblock %}

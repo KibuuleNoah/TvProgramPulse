@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title></title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <style>
+    /*.cstm-list-container {
+      text-align: center;
+      list-style: none;
+      font-size: 3.5rem;
+      width: 300px;
+      height: 0;
+      position: relative;
+      cursor: pointer;
+    }*/
+
+    .cstm-list-container .cstm-list-item {
+      /*padding: 2rem 0;
+      width: 100%;
+      background-color: lightgray;
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: 0;*/
+      transform: translateY(-300px);
+      transition: all 0.6s ease-out;
+    }
+    .cstm-list-container .cstm-list-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+
+  <body>
+    <ul class="cstm-list" aria-live="assertive">
+      <li
+        class="cstm-list-container show"
+        id="test4"
+        onclick="removeListItem('test4')"
+      >
+        <div class="cstm-list-item show">List Item</div>
+      </li>
+      <li
+        class="cstm-list-container show"
+        id="test3"
+        onclick="removeListItem('test3')"
+      >
+        <div class="cstm-list-item show">List Item</div>
+      </li>
+      <li
+        class="cstm-list-container show"
+        id="test1"
+        onclick="removeListItem('test1')"
+      >
+        <div class="cstm-list-item show">List Item</div>
+      </li>
+      <li
+        class="cstm-list-container show"
+        id="test2"
+        onclick="removeListItem('test2')"
+      >
+        <div class="cstm-list-item show">List Item</div>
+      </li>
+    </ul>
+    <script>
+      const list = document.querySelector(".cstm-list");
+
+      const listItems = document.querySelectorAll(".cstm-list-item");
+      function removeListItem(e) {
+        let container = document.getElementById(e);
+        while (!container.classList.contains("cstm-list-container")) {
+          container = container.parentElement;
+        }
+        container.classList.remove("show");
+        const listItem = container.querySelector(".cstm-list-item");
+        listItem.classList.remove("show");
+        container.ontransitionend = function () {
+          container.remove();
+        };
+      }
+
+      function calculateHeightOfListContainer() {
+        const firstListItem = listItems[0];
+        firstListItem.style.transition = "none";
+        firstListItem.style.transform = "none";
+        firstListItem.style.opacity = "1";
+        let heightOfListItem = firstListItem.clientHeight;
+        firstListItem.style.transition = "";
+        firstListItem.style.transform = "";
+        firstListItem.style.opacity = "";
+        const styleTag = document.createElement("style");
+        document.body.prepend(styleTag);
+        styleTag.innerHTML = `.cstm-list-container.show {
+        height: ${heightOfListItem}px;
+    }`;
+        setTimeout(function () {
+          styleTag.innerHTML += `.cstm-list-container {
+            transition: all 0.6s ease-out;
+        }`;
+        }, 0);
+      }
+      calculateHeightOfListContainer();
+    </script>
+  </body>
+</html>

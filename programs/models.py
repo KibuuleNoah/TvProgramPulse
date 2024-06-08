@@ -5,11 +5,6 @@ import json
 from users.models import CustomUser
 
 # Create your models here.
-# from datetime import datetime, timedelta
-#
-# dt1 = datetime.now()
-# dt2 = dt1 + timedelta(days=1, hours=2, minutes=30)
-# print(dt2)
 
 
 class Television(models.Model):
@@ -26,6 +21,10 @@ with open("./genres.json") as f:
 
 
 class Program(models.Model):
+    thumbnail = models.FileField(
+        upload_to="programs/static/uploads/",
+        default="programs/static/uploads/default_thumbnail.jpg",
+    )
     name = models.CharField(max_length=50, unique=True)
     rating = models.FloatField(default=0.0)
     time = models.TimeField()
@@ -38,6 +37,10 @@ class Program(models.Model):
 
     def __str__(self):
         return self.name
+
+    @property
+    def thumbnail_url(self):
+        return str(self.thumbnail.url.split("/", 3)[-1])
 
     @property
     def p_days(self):
@@ -58,7 +61,6 @@ class Program(models.Model):
         today = strftime("%a")
         if today in str(self.days):
             program_start_tm = self.time
-            # time(hour=16, minute=24)
             program_end_tm = self.add_mins_to_time(program_start_tm, self.duration)
             current_time = datetime.now().time()
 

@@ -10,8 +10,15 @@
     {% endif %}
     <div class="row">
       <div class="col-4 col-md-2 mx-0 d-flex">
-        {% load static %}
+        {% load static %} {% if program.thumbnail %}
+        <img
+          src="{% static program.thumbnail_url %}"
+          class="img-fluid rounded"
+          alt="{{program.name}} img"
+        />
+        {% else %}
         <img src="{% static 'img.png' %}" class="img-fluid rounded" alt="..." />
+        {% endif %}
       </div>
       <div class="col-8 col-md-10 mx-0">
         <div class="row">

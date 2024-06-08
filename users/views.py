@@ -29,17 +29,26 @@ class UserSignupView(FormView):
         return self.render_to_response(self.get_context_data(form=form, invalid=True))
 
     def form_valid(self, form):
-        form.save()
         username = form.cleaned_data["username"]
-        password = form.cleaned_data["password1"]
+        if username.istitle() and username.find(" ") == -1:
+            form.save()
+            username = form.cleaned_data["username"]
+            password = form.cleaned_data["password1"]
 
-        user = authenticate(
-            self.request,
-            username=username,
-            password=password,
+            user = authenticate(
+                self.request,
+                username=username,
+                password=password,
+            )
+            login(self.request, user)
+            return super().form_valid(form)
+        return self.render_to_response(
+            self.get_context_data(
+                form=form,
+                invalid=True,
+                username_error="Username first letter must be upper and nospace in it",
+            )
         )
-        login(self.request, user)
-        return super().form_valid(form)
 
 
 class UserLoginView(FormView):
