@@ -81,23 +81,3 @@ class UserPrograms(models.Model):
 
     class Meta:
         unique_together = ("user", "program")
-
-
-# class UserPrograms(models.Model):
-#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     program = models.ForeignKey(Program, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f"{self.user.username}-{self.program.name}"
-#
-#     class Meta:
-#         constraints = [
-#             models.UniqueConstraint(fields=['user', 'program'], name='unique_user_program')
-#         ]
-
-# class UserPrograms(models.Model):
-#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-#     program = models.ForeignKey(Program, on_delete=models.CASCADE)
-#
-#     def __str__(self):
-#         return f"{self.user.username}-{self.program.name}"

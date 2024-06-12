@@ -73,7 +73,6 @@ class ProgramsHomeView(LoginRequiredMixin, ListView):
                 }
             )
         )
-        # print(self.object_list)
         return self.render_to_response(context=context)
 
 

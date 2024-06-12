@@ -14,21 +14,36 @@ from programs.models import Program, UserPrograms
 
 
 class UserSignupView(FormView):
+    """
+    Signup View for creating new users
+    """
+
     form_class = CustomUserCreationForm
     template_name = "signup.html"
     success_url = reverse_lazy("home")
 
     def get_context_data(self, **kwargs):
+        """
+        Inject data to the view context to be accessed in template
+        """
         context = super().get_context_data(**kwargs)
         if kwargs.get("invalid", None) != True:
             context["form"] = self.form_class
         return context
 
     def form_invalid(self, form):
-        print(form["username"].value)
+        """
+        re-render form if invalid with same custom flag
+        invalid=True
+        """
         return self.render_to_response(self.get_context_data(form=form, invalid=True))
 
     def form_valid(self, form):
+        """
+        authenticate user if form is valid and nospaces in username
+        and username is title case
+        else re-render form with some custom context data
+        """
         username = form.cleaned_data["username"]
         if username.istitle() and username.find(" ") == -1:
             form.save()
@@ -82,10 +97,17 @@ class UserLoginView(FormView):
 
 
 class DashBoard(LoginRequiredMixin, TemplateView):
+    """
+    User DashBoard view
+    """
+
     template_name = "dashboard.html"
     login_url = reverse_lazy("auth-login")
 
     def get_context_data(self, **kwargs):
+        """
+        Inject data to the view context to be accessed in template
+        """
         context = super().get_context_data(**kwargs)
         user_programs = UserPrograms.objects.filter(user=self.request.user)
         ongoing = list(
