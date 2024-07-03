@@ -1,0 +1,80 @@
+body,
+main,
+.card {
+  background: #14181c;
+  color: #fff;
+}
+fieldset {
+  border: 1px solid #9ab;
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
+.text-muted {
+  color: #9ab !important;
+}
+.shadow {
+  box-shadow:
+    0 0 20px rgba(255, 255, 255, 0.1),
+    0 0 10px rgba(0, 0, 0, 0.2) !important;
+}
+.content-section {
+  background-color: #14181c;
+}
+.title {
+  color: #0dcaf0;
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+.badge {
+  padding: 2px;
+  border-radius: 0.3rem;
+  background-color: orange;
+}
+.card {
+  color: #fff;
+}
+.genre {
+  border-radius: 0.3rem;
+  background: #9ab;
+  color: #fff;
+  padding: 2px;
+}
+.star-rating {
+  color: #ffc107;
+}
+.icon-btn,
+.icon-btn:active {
+  background-color: inherit;
+  border: 0;
+  height: 100%;
+}
+td {
+  padding: 2px;
+  border: 1px solid #9ab;
+}
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+  width: 90%;
+}
+b.card-title {
+  font-size: 1.2rem;
+}
+
+.details div {
+  padding-bottom: 0.3rem;
+}
+.scroll-bar-none {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+.scroll-bar-none::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.color-box {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 3px;
+}
